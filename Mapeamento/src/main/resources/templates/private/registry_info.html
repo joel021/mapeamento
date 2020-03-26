@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Registrar informação</title>
+
+    <meta name="description" content="Registro de informação para mapeamento de infermidade.">
+    <meta name="author" content="JIS">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/css/custom/style_main.css" rel="stylesheet"/>
+    <link href="/css/custom/style_infos.css" rel="stylesheet"/>
+    
+    <link rel="stylesheet" href="/css/leaflet.css" crossorigin=""/>
+    <script src="/js/leaflet.js" crossorigin=""></script>
+  
+    <style>
+        #map { width: 800px; height: 600px; }
+        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+        a { color: #0077ff; }
+    </style>
+  </head>
+  <body>
+  <!-- isso � um header -->
+    <div class="container-fluid">
+        <div class="row">
+                <div class="col-md-12" >
+                    <button type="button" onclick="main()" class="btn btn-success">
+                    Main
+                    </button>
+                    <h2>
+                            Registro de informação
+                    </h2>
+                    <p>
+                            Certifique-se de estar transmitindo a verdade.
+                    </p>
+                    <ul class="nav">
+						<li class="nav-item">
+						<a class="nav-link" href="/">Página Inicial</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/private/main">Main</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/public/logout">Sair</a>
+						</li>
+					</ul>
+					<div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}"></div>
+				</div>
+                </div>
+        </div>
+     </div>
+        <div class="container-fluid" style="max-width: 800px">
+            <div class="row">
+                <div class="col-md-12" id="geolocalizacao">
+                    <div class="jumbotron" style=" background: #d0d0d0">
+                        <h3>Clique no local sobre o mapa.</h3>
+                        <div id="mapDIV"></div>
+                        <div id="local"></div>
+                        <button type="button" onclick="selectLocation()" class="btn">
+                        Mudar ponto
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+	<div class="container-fluid" style="max-width: 500px">
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="jumbotron">
+
+                        <form name="info" role="form" id="form_info">
+								<div id="messege"></div>
+                                <div class="form-group">
+
+                                        <label for="types">
+                                                Tipo
+                                        </label>
+                                        <select class="form-control" id="types" required>
+                                                <option value="">Selecionar</option>
+                                                <option value="COVID-19">COVID-19</option>
+                                                <option value="DENGUE">Dengue</option>
+                                                <option value="AGUA PARADA">Água parada</option>
+                                                <option value="LIXO">Lixo inadequado</option>
+                                                <option value="ESTRADA PERIGOSA">Problema na estrada</option>
+                                                <option value="SEM AGUA">Sem destribuição de água</option>
+                                                <option value="OUTRO">Outro</option>
+                                        </select>
+                                </div>
+
+                                <div class="form-group">
+
+                                        <label for="situation">
+                                                Estado (Confirmado, suspeito...)
+                                        </label>
+                                        <select class="form-control" id="situation" required>
+                                                <option value="">Selecionar</option>
+                                                <option value="Confirmado">Confirmado</option>
+                                                <option value="Suspeito">Suspeito</option>
+                                                <option value="Solucionado">Solucionado</option>
+                                        </select>
+                                </div>
+								
+								<div class="form-group">
+
+                                        <label for="info">
+                                                Mais informações
+                                        </label>
+                                        <input type="text" class="form-control" id="info" placeholder="Ex.: Estrada esburacada, ..." required />
+                                </div>
+                                
+                                <button id="button_inf" type="submit" class="btn btn-primary">
+                                        Informe
+                                </button>
+                                
+                                <progress id="progress"></progress>
+                        </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+	<!-- isso � um footer -->
+	<div class="container-fluid" id="footer">
+		<blockquote class="blockquote">
+			<p class="mb-0">
+				Dados para mapeamento de doenças e contaminações.
+			</p>
+			<footer class="blockquote-footer">
+				Iniciativa de JIS.
+            </footer>
+		</blockquote>
+	</div>
+	<!-- isso � um footer -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+   <script src="/js/custom/scripts_info.js"></script>
+  </body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Dasboard - Area restrita</title>
+
+    <meta name="description" content="Informações gerais públicas">
+    <meta name="author" content="JIS">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/custom/style_main.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/css/leaflet.css" crossorigin=""/>
+    <script src="/js/leaflet.js" crossorigin=""></script>
+    <style>
+        #map { width: 800px; height: 600px; }
+        body { font: 16px/1.4 "Helvetica Neue", Arial, sans-serif; }
+        .ghbtns { position: relative; top: 4px; margin-left: 5px; }
+        a { color: #0077ff; }
+        .col-md-12 {padding-top: 1em;}
+    </style>
+    <link rel="stylesheet" href="/chartist/chartist.min.css">
+  </head>
+  <body>
+	<div class="container-fluid" id="top">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="jumbotron">
+					<h2 style="color: #404040">
+						Main
+					</h2>
+					<p>
+						Grupo -JIS
+					</p>
+					
+					<ul class="nav">
+						<li class="nav-item">
+						<a class="nav-link disabled" href="#">Página Inicial</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/private/registry_info">Registrar problema</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/public/logout">Sair</a>
+						</li>
+				
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+
+  <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="row">
+				<div id="load"><h2>Carregando, aguarde...</h2></div>
+				<div class="col-md-12">
+					<div id="floater" class="row">
+						<div class="col-md-6">
+							<div class="jumbotron">
+							
+								<h3>Clique sobre a região que quer informações.</h3>
+								<div class="alert alert-success" style="display:none" id="alert" role="alert">Toque no mapa!</div>
+                                 <div id="mapDIV"></div>
+                                 <progress id="progress" style="display:none; width: 80%"></progress>
+							</div>
+							
+						</div>
+						
+						<div class="col-md-6">
+							<div class="jumbotron">
+								<h3>Estatísticas sobre o local</h3>
+								<form name="filter1" role="form">
+                                     
+                                     <div class="form-group">
+                                         <label for="precision">
+                                         Precisão a nível de
+                                         </label>
+                                         <select name="precision" class="form-control" id="precision" onchange="filter()">
+                                         	<option value="0">Cidade</option>
+                                            <option value="1">Estado</option>
+                                            <option value="2">Pais</option>
+                                         </select>
+                                     </div>
+                                     <div class="form-group">
+                                         <label for="type_registry">
+                                         Tipo
+                                         </label>
+                                         <select name="type_registry" class="form-control" id="type_registry" onchange="filter()">
+                                               <option value="COVID-19">COVID-19</option>
+                                               <option value="DENGUE">Dengue</option>
+                                               <option value="AGUA PARADA">Água parada</option>
+                                               <option value="LIXO">Lixo inadequado</option>
+                                               <option value="ESTRADA PERIGOSA">Problema na estrada</option>
+                                               <option value="SEM AGUA">Sem destribuição de água</option>
+                                               <option value="OUTRO">Outro</option>
+                                         </select>
+                                     </div>
+                                 </form>
+                                
+                                <div class="ct-chart ct-perfect-fourth" id="char1" style="max-width: 90%"></div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="jumbotron" style="padding:0px; padding-left:10px">
+				                <h3>Percentual</h3>
+                                 <div class="ct-chart ct-perfect-fourth" id="char2"></div>
+							</div>
+						</div>
+						
+						<div class="col-md-6">
+							<div class="jumbotron" style="padding:0px; padding-left:10px">
+				                <h3>Problemas em <span id="level"></span></h3>
+                                 <div class="ct-chart ct-perfect-fourth" id="list_registers"></div>
+							</div>
+						</div>
+					
+						<div class="col-md-6" style="padding:0px; padding-left:10px">
+								<h3>Seus dados</h3>
+								
+								<form method="post" id="form_data" th:action="@{/private/update_user}" th:object="${userForm}">
+									<span class="text-danger align-middle" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+									<div class="form-group">
+										<label for="name">
+											Nome
+										</label>
+										<input type="text" name="name" th:field="*{name}" class="form-control" id="name" required />
+										
+									</div>
+									<div class="form-group">
+										<label for="lastName">
+											Ultimo Nome
+										</label>
+										<input type="text" name="lastName" th:field="*{lastName}" class="form-control" id="lastName" required />
+										
+									</div>
+									
+									<div class="form-group">
+										<label for="principalRole">
+											Papel (Se mudar, terá de esperar confirmação)
+										</label>
+										<select th:field="*{principalRole}" name="principalRole" class="form-control" id="principalRole" >
+											<option value="">inalterado</option>
+											<option value="ADMIN">Admin</option>
+											<option value="CITIZEN">Cidadão comum</option>
+											<option value="AGENT">Agente</option>
+										</select>
+									</div>
+									<span class="text-danger align-middle" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+									<div class="form-group">
+										<label for="password2">
+											Nova senha
+										</label>
+										<input type="password" name="password2" class="form-control" id="password2" />
+										
+									</div>
+									
+									<div class="form-group">
+										<label for="password">
+											Confirme senha
+										</label>
+										<input type="password" name="password" class="form-control" id="password"  />
+										
+									</div>
+									
+									<button class="btn btn-primary">
+										Atualizar
+									</button>
+								</form>
+						</div>
+						
+						<div class="col-md-6" th:if="${#strings.equals(user.principalRole, 'ADMIN')}" style="padding:0px; padding-left:10px">
+								<h3>Usuários para ativação</h3>
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col">Email</th>
+											<th scope="col">Papel</th>
+											<th scope="col">Ação</th>
+										</tr>
+									</thead>
+									<tbody>
+								         <tr th:each="user: ${usersToActive}" th:id="'user_'+${user.id}">
+								         	<th scope="row"><span th:text="${user.email}"></span></th>
+								         	<td><span th:text="${user.principalRole}"></span></td>
+								         	<td><button th:id="'active_'+${user.id}" th:onclick="'active(' + ${user.id} + ',1)'">Ativar</button>
+								         	<button th:id="'dactive_'+${user.id}" th:onclick="'active(' + ${user.id} + ',0)'">Recusar</button></td>
+								         </tr>
+							         </tbody>
+						       </table>
+							</div>
+					</div>
+						
+					</div>
+					</div>
+				</div>
+			</div>
+			</div>
+	<div class="container-fluid" id="footer">
+		<blockquote class="blockquote">
+			<p class="mb-0">
+				Dados para mapeamento de doenças e contaminações.
+			</p>
+			<footer class="blockquote-footer">
+				Iniciativa de JIS.
+			</footer>
+		</blockquote>
+	</div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/custom/leaflet-heat.js"></script>
+    <script src="/chartist/chartist.min.js"></script>
+    <script src="/js/custom/script_p_main.js"></script>
+  </body>
+</html>

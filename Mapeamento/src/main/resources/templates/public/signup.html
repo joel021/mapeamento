@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Cadastro no sistema</title>
+
+    <meta name="description" content="Cadastre-se para contribuir com sua comunidade.">
+    <meta name="author" content="JIS">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/custom/style_login_register.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <div class="container-fluid" id="top_register">
+        <div class="row">
+                <div class="col-md-12">
+                        <div class="jumbotron">
+                                <h2>
+                                        Olá, cadastre-se para ajudar nas estatisticas
+                                </h2>
+                                <p>
+                                        Grupo voluntário -JIS
+                                </p>
+                                <ul class="nav">
+									<li class="nav-item">
+									<a class="nav-link" href="/">Página Inicial</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="/public/login">Login</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link disabled" href="/public/signup">Registrar</a>
+									</li>
+							
+								</ul>
+                        </div>
+                </div>
+        </div>
+	</div>
+	
+	<div class="container-fluid" id="form_cadastro">
+            <div class="row">
+                <div class="col-md-12">
+                    <form role="form" method="POST" th:action="@{/public/signup}" th:object="${userForm}">
+                        <div class="form-group">
+                                <label for="name">
+                                        Nome
+                                </label>
+                                <span class="text-danger align-middle" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                                <input type="text" th:field="*{name}" class="form-control" id="name" placeholder="Nome" required autofocus>
+                        </div>
+						
+						<div class="form-group">
+
+                                <label for="email">
+                                        Ultimo nome
+                                </label>
+                                <span class="text-danger align-middle" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></span>
+                                <input type="text" th:field="*{lastName}" class="form-control" id="lastName" placeholder="Ultimo nome">
+                        </div>
+                        
+                        <div class="form-group">
+
+                                <label for="email">
+                                        Email
+                                </label>
+                                <span class="text-danger align-middle" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                <input type="text" th:field="*{email}" class="form-control" id="email" placeholder="Email" required autofocus>
+                        </div>
+
+						<div class="form-group">
+
+                                <label for="principalRole">
+                                        Papel
+                                </label>
+                                <span class="text-danger align-middle" th:if="${#fields.hasErrors('principalRole')}" th:errors="*{principalRole}"></span>
+                                <select th:field="*{principalRole}" class="form-control" id="principalRole">
+                                	<option value="CITIZEN">Cidadão comum</option>
+                                	<option value="AGENT">Agente</option>
+                                	<option value="ADMIN">ADMIN</option>
+                                </select>
+                        </div>
+                        
+                        <div class="form-group">
+
+                                <label for="password">
+                                        Senha
+                                </label>
+                                <input type="password" th:field="*{password}" class="form-control" id="password" placeholder="Senha" required>
+                        </div>
+                        <div class="form-group">
+
+                                <label for="password">
+                                        Confirme a senha
+                                </label>
+                                <input type="password" th:field="*{password}" class="form-control" id="password2" placeholder="Senha" required>
+                        </div>
+                        <div class="checkbox">
+
+                                <label>
+                                        <input type="checkbox"> Check me out
+                                </label>
+                        </div> 
+                        <button type="submit" class="btn btn-primary">
+                                Cadastre-me
+                        </button>
+                    </form>
+                    <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                 		<a href="@{/}">Login</a>
+             		</div>
+                    </div>
+            </div>
+	</div>
+	
+	<div class="container-fluid" id="footer">
+            <blockquote class="blockquote">
+                <p class="mb-0">
+                        Dados para mapeamento de doenças e contaminações.
+                </p>
+                <footer class="blockquote-footer">
+                        Iniciativa de JIS.
+                </footer>
+
+            </blockquote>
+	</div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/custom/scripts_login_register.js"></script>
+  </body>
+</html>

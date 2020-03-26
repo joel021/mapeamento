@@ -1,0 +1,47 @@
+body {
+    font-weight: 400;
+	background-color: #0090b7;
+}
+
+a {
+	color: #025c90;
+	font-family: sans-serif;
+}
+
+.text-danger {
+	color: red;
+}
+input {
+    margin-top: 10px;
+}
+.text-danger {
+    color: #ffffff!important;
+}
+#form_cadastro {
+    padding-right: 15px;
+    padding-left: 15px;
+    width: 400px;
+    -webkit-box-shadow: 4px 3px 17px -5px rgba(255,196,219,0.84);
+    -moz-box-shadow: 4px 3px 17px -5px rgba(255,196,219,0.84);
+    box-shadow: 4px 3px 17px -5px rgba(0, 0, 0, 0.84);
+    background: #e4e4e4;
+    margin-top: 1%;
+    padding: 20px;
+    border-radius: 132px 0px 194px 0px;
+    -moz-border-radius: 132px 0px 194px 0px;
+    -webkit-border-radius: 132px 0px 194px 0px;
+    border: 0px solid #000000;
+}
+#footer{
+	width: 400px;
+	margin-top: 5%;
+}
+.blockquote-footer{
+	color: #fff;
+}
+#top_register {
+	margin-top: 20px;
+}
+.container {
+    margin-top: 2em;
+}

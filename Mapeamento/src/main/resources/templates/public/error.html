@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Login no JIS</title>
+
+    <meta name="description" content="Login">
+    <meta name="author" content="JIS">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/custom/style_login_register.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <div class="container-fluid" id="top_register">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="jumbotron">
+					<h2>
+						Ajude no mapeamento para ações específicas em cada região.
+					</h2>
+					<p>
+						Grupo voluntário -JIS
+					</p>
+					<ul class="nav">
+						<li class="nav-item">
+						<a class="nav-link" href="/">Página Inicial</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link disabled" href="/public/login">Login</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="/public/signup">Contribuir</a>
+						</li>
+				
+					</ul>
+					<div class="alert alert-success" role="alert" th:if="${msg}" th:utext="${msg}"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container-fluid" id="form_cadastro">
+			<div class="row">
+				<div class="col-md-12">
+					<h3>Olha, parece que você não tem permissões necessárias para acessar essa área.</h3>
+				</div>
+			</div>
+		</div>
+	
+	<div class="container-fluid" id="footer">
+		<blockquote class="blockquote">
+			<p class="mb-0">
+				Dados para mapeamento de doenças e contaminações.
+			</p>
+			<footer class="blockquote-footer">
+				Iniciativa de JIS.
+			</footer>
+		</blockquote>
+	</div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/custom/scripts_login_register.js"></script>
+  </body>
+</html>
