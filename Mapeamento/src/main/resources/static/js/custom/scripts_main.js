@@ -11,7 +11,7 @@ function requestLocationForUser() {
 }
 
 function createGraphics(listRegisters){
-    console.log("q: "+listRegisters.lenght);
+    console.log("q: "+listRegisters.length);
     
     var labels = ["Suspeito", "Confirmado", "Solucionado"];
     var seriesConfirmed = 0;
@@ -42,9 +42,7 @@ function createGraphics(listRegisters){
         labels: labels,
         series: [ [seriesConfirmed, seriesSuspect, seriesSolved] ]
     };
-    
-    console.log("labels: "+labels+" seriesSuspect: "+seriesSuspect+" seriesConfirmed: "+seriesConfirmed+" seriesSoluced: "+seriesSolved);
-    
+        
     var options = { 
     	high: Math.max.apply(null,[seriesConfirmed,seriesSuspect, seriesSolved])+1,
         showPoint: false,
@@ -104,6 +102,8 @@ function createGraphics(listRegisters){
 function getLocationFromUser(position) {  
     lat = position.coords.latitude;
     lon = position.coords.longitude;
+    
+    map = createMap(lat, lon);
 }
 
 function onclickMap(e){
@@ -130,6 +130,7 @@ function getInfosFromCoord(lat, lon){
         cache: false,
         type: "GET",
         success: function(r){
+        	console.log("state: "+r.address.state+" city: "+r.address.city);
             resultInfosFromCoord(r);
         },
         error: function(e){
@@ -194,6 +195,7 @@ function createMap(x,y){
     map.on('click', onclickMap);
         
     console.log("mapa criado");
+    getInfosFromCoord(x, y);
     return map;
 }
 
@@ -245,7 +247,7 @@ function setAllRegisters(r){
 			
 			if(points.length > 0){
 				var p = $("#type_registry").val();
-				setPoint(map, lat,lon, r.length+" problemas de "+p+" cadastrados.");
+				setPoint(map, lat,lon, r.length+" problemas de "+p+" cadastrados em "+r[0].state+", "+r[0].city);
 			}
 		}
 	}
@@ -274,10 +276,8 @@ function resultInfosFromCoord(r){
         	setAllRegisters(r);
         },
         error: function(e){
-            console.log("erro "+e);
-            $("#messege").html('<div class="alert alert-danger" role="alert">Não foi possível, tente novamente!</div>');
             $("#progress").css("display", "none");
-            
+            $("#load").css("display", "none");
         }
     });
 }
@@ -294,8 +294,5 @@ window.onload = function(){
 	  $("#load").css("display", "table");
 	  
 	  requestLocationForUser();
-	  map = createMap(lat, lon);
-	  
-	  getInfosFromCoord(lat, lon);
 }
 

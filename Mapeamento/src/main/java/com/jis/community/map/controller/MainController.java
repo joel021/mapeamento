@@ -33,14 +33,14 @@ public class MainController {
 	 
 	 @RequestMapping(value = "/public/get_registers/", method = RequestMethod.POST)
      public @ResponseBody List<Register> searchProblemByState(@RequestBody(required = true) Map<String, String> args) {
-		 List<Register> list = new ArrayList();
+		 List<Register> list = new ArrayList<Register>();
 		 
 		 if(args.get("precision").equals("0") && args.get("city") != null) {
 			 //cidade
 			 list = registerService.findRegisterByTypeAndCity(args.get("type"), args.get("city"));
 		 }else if(args.get("precision").equals("1") && args.get("state") != null) {
 			 list = registerService.findRegisterByTypeAndState(args.get("type"), args.get("state"));
-		 }else if(args.get("country") != null){
+		 }else if(args.get("country") != null && args.get("precision").equals("2")){
 			 list = registerService.findRegisterByTypeAndCountry(args.get("type"), args.get("country"));
 		 }
 		 return list;

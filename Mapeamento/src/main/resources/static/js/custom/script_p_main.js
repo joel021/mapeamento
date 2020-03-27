@@ -101,6 +101,8 @@ function createGraphics(listRegisters){
 function getLocationFromUser(position) {  
     lat = position.coords.latitude;
     lon = position.coords.longitude;
+    
+    map = createMap(lat, lon);
 }
 
 function onclickMap(e){
@@ -189,7 +191,8 @@ function createMap(x,y){
     coordDIV.style.left = '150px';
 
     map.on('click', onclickMap);
-        
+    
+    getInfosFromCoord(lat, lon);
     return map;
 }
 
@@ -288,7 +291,7 @@ function resultInfosFromCoord(r){
         	setAllRegisters(r);
         },
         error: function(e){
-            $("#messege").html('<div class="alert alert-danger" role="alert">Não foi possível, tente novamente!</div>');
+            $("#load").css("display", "none");
             $("#progress").css("display", "none");
             
         }
@@ -318,7 +321,6 @@ function active(id, active){
 }
 
 function setOnRegister(id){
-	console.log("id = "+id);
 	$("#button_"+id).css("display", "none");
 	$.ajax({
         url: '/private/updateRegister/',
@@ -348,9 +350,6 @@ function filter(){
 window.onload = function(){
 	  $("#load").css("display", "table");
 	  
-	  requestLocationForUser();
-	  map = createMap(lat, lon);
-	  //setPoint(map, lat, lon,"Localização de início");
+	  requestLocationForUser();	  
 	  
-	  getInfosFromCoord(lat, lon);
 }
